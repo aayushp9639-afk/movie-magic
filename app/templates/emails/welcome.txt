@@ -1,0 +1,32 @@
+================================================================================
+🎬 MOVIE MAGIC — WELCOME TO MOVIE MAGIC
+================================================================================
+
+Welcome to Movie Magic!
+Your next great movie experience starts here.
+
+Hi {{ user_name }},
+
+Thank you for creating an account with Movie Magic! You are all set to discover
+the latest blockbusters, explore verified cinema theatres across Kolhapur,
+check interactive real-time seat availability, and book tickets with confidence.
+
+WHAT YOU CAN DO WITH MOVIE MAGIC:
+- 🍿 Curated Catalogue: Browse the latest regional and international releases.
+- 🏛️ Premier Theatres: Book tickets at verified venues like PVR DYP City Mall,
+  INOX Reliance, and Padma Talkies.
+- 💺 Interactive Seating: Choose your favorite seats with transparent pricing.
+
+EXPLORE MOVIES:
+{{ movies_url }}
+
+Your next favorite movie is waiting.
+
+--------------------------------------------------------------------------------
+Movie Magic • Cloud-Native Cinema Ticketing
+This email was sent to {{ user_email }} upon account registration.
+Educational demonstration project powered by Flask, DynamoDB, and Resend.
+{% if support_email %}
+Need assistance? Contact {{ support_email }}
+{% endif %}
+================================================================================

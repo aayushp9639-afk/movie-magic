@@ -1,0 +1,31 @@
+[Unit]
+Description=Movie Magic Flask Gunicorn Application Service
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/movie-magic
+EnvironmentFile=-/home/ec2-user/movie-magic/.env
+ExecStart=/home/ec2-user/movie-magic/.venv/bin/gunicorn \
+    --workers 3 \
+    --bind 127.0.0.1:5000 \
+    --timeout 60 \
+    --access-logfile - \
+    --error-logfile - \
+    --capture-output \
+    "run:app"
+
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+# Standard systemd logging: inspect with `journalctl -u moviemagic.service -f`
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

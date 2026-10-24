@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}404 Not Found — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5 my-4">
+  <div class="card-cinematic p-4 p-md-5 mx-auto" style="max-width: 580px;">
+    <div class="mb-3">
+      <span class="badge badge-neon mb-2">Error 404</span>
+      <div class="text-info mt-1">
+        <i class="bi bi-camera-reels" style="font-size: 3.75rem;"></i>
+      </div>
+    </div>
+    <h2 class="fw-bold text-white mb-2">404 — Scene Not Found</h2>
+    <p class="text-secondary mb-4">
+      The movie, showtime, or page you are looking for does not exist in our theatre schedule or curated catalogue.
+    </p>
+
+    <form method="GET" action="{{ url_for('main.movies_catalog') }}" class="mb-4">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control form-control-cinematic" placeholder="Search for a movie, director, or actor..." aria-label="Search movies">
+        <button type="submit" class="btn btn-cinematic">
+          <i class="bi bi-search me-1"></i> Search
+        </button>
+      </div>
+    </form>
+
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <a href="{{ url_for('main.index') }}" class="btn btn-cinematic">
+        <i class="bi bi-arrow-left me-1"></i> Back to Home
+      </a>
+      <a href="{{ url_for('main.movies_catalog') }}" class="btn btn-outline-cinematic">
+        <i class="bi bi-collection-play me-1"></i> Browse All Movies
+      </a>
+      <a href="{{ url_for('main.watchlist') }}" class="btn btn-outline-cinematic">
+        <i class="bi bi-bookmark-heart me-1 text-danger"></i> My Watchlist
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

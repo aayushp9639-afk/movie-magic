@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} Movie — Admin Portal — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-xl-11">
+      <div class="card-cinematic p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-50">
+          <div>
+            <h3 class="fw-bold text-white mb-0">
+              <i class="bi bi-film text-warning me-2"></i> {{ action }} Movie in Catalogue
+            </h3>
+            <span class="text-dim small">Admin Catalogue Control & Live Image Preview</span>
+          </div>
+          <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-cinematic btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Dashboard
+          </a>
+        </div>
+
+        <form method="POST" action="" novalidate id="movieForm">
+          {{ form.hidden_tag() }}
+
+          <div class="row g-4">
+            <!-- Form Fields Column -->
+            <div class="col-lg-8">
+              <div class="row g-3 mb-3">
+                <div class="col-md-7">
+                  <label class="form-label text-muted small fw-semibold">Official English / Romanized Title</label>
+                  {{ form.title(class="form-control form-control-cinematic" + (" is-invalid" if form.title.errors else ""), id="movieTitle") }}
+                  {% for error in form.title.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-5">
+                  <label class="form-label text-muted small fw-semibold">Original Title (Native Script)</label>
+                  {{ form.original_title(class="form-control form-control-cinematic" + (" is-invalid" if form.original_title.errors else ""), placeholder="e.g. 鬼滅の刃 / పుష్ప 2") }}
+                  {% for error in form.original_title.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label text-muted small fw-semibold">Category</label>
+                  {{ form.category(class="form-select form-select-cinematic" + (" is-invalid" if form.category.errors else ""), id="movieCategory") }}
+                  {% for error in form.category.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label text-muted small fw-semibold">Original Language</label>
+                  {{ form.language(class="form-select form-select-cinematic" + (" is-invalid" if form.language.errors else "")) }}
+                  {% for error in form.language.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label text-muted small fw-semibold">Primary Genre</label>
+                  {{ form.genre(class="form-select form-select-cinematic" + (" is-invalid" if form.genre.errors else "")) }}
+                  {% for error in form.genre.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-3">
+                  <label class="form-label text-muted small fw-semibold">Duration</label>
+                  {{ form.duration(class="form-control form-control-cinematic" + (" is-invalid" if form.duration.errors else ""), placeholder="e.g. 2h 15m") }}
+                  {% for error in form.duration.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label text-muted small fw-semibold">Content Rating</label>
+                  {{ form.rating(class="form-select form-select-cinematic" + (" is-invalid" if form.rating.errors else "")) }}
+                  {% for error in form.rating.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label text-muted small fw-semibold">IMDb / Verified Rating</label>
+                  {{ form.imdb_score(class="form-control form-control-cinematic" + (" is-invalid" if form.imdb_score.errors else ""), placeholder="8.4") }}
+                  {% for error in form.imdb_score.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label text-muted small fw-semibold">Release Year</label>
+                  {{ form.release_year(class="form-control form-control-cinematic" + (" is-invalid" if form.release_year.errors else ""), placeholder="2024") }}
+                  {% for error in form.release_year.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label text-muted small fw-semibold">Director</label>
+                  {{ form.director(class="form-control form-control-cinematic" + (" is-invalid" if form.director.errors else "")) }}
+                  {% for error in form.director.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label text-muted small fw-semibold">Badge / Tagline (Optional)</label>
+                  {{ form.badge(class="form-control form-control-cinematic" + (" is-invalid" if form.badge.errors else ""), placeholder="e.g. Oscar Winner, Cult Classic", id="movieBadge") }}
+                  {% for error in form.badge.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-muted small fw-semibold d-flex justify-content-between align-items-center">
+                  <span>Poster Image URL (TMDB / Official Theatrical Asset)</span>
+                  <span class="badge bg-secondary" id="posterValidationBadge" style="font-size: 0.7rem;">Checking URL</span>
+                </label>
+                {{ form.poster_url(class="form-control form-control-cinematic" + (" is-invalid" if form.poster_url.errors else ""), placeholder="https://image.tmdb.org/t/p/w500/...", id="moviePosterUrl") }}
+                {% for error in form.poster_url.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                <div class="form-text text-dim small">
+                  Supports TMDB paths (e.g. <code class="text-info">https://image.tmdb.org/t/p/w500/...</code>) or HTTPS URLs. If omitted or broken, the fallback artwork renders automatically without layout shifts.
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label text-muted small fw-semibold">Synopsis</label>
+                {{ form.synopsis(class="form-control form-control-cinematic" + (" is-invalid" if form.synopsis.errors else ""), rows=3) }}
+                {% for error in form.synopsis.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 pt-2 border-top border-secondary border-opacity-25">
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-cinematic">Cancel</a>
+                {{ form.submit(class="btn btn-cinematic px-4") }}
+              </div>
+            </div>
+
+            <!-- Live Poster Preview Panel (Right Column) -->
+            <div class="col-lg-4">
+              <div class="p-3 rounded bg-black bg-opacity-40 border border-secondary border-opacity-50 sticky-top" style="top: 85px;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="text-white fw-bold mb-0">
+                    <i class="bi bi-image me-1 text-info"></i> Live Poster Preview
+                  </h6>
+                  <span class="badge bg-dark border border-secondary" id="previewModeTag">2:3 Aspect</span>
+                </div>
+                <p class="text-dim small mb-3" style="font-size: 0.8rem;">
+                  Simulates theatrical card display across catalogue and mobile views.
+                </p>
+
+                <div class="poster-container shadow-lg mx-auto mb-3" style="max-width: 240px;">
+                  <!-- Live Poster Image -->
+                  <img id="adminPosterImg"
+                       src=""
+                       alt="Movie Poster Preview"
+                       class="poster-img"
+                       style="display: none;"
+                       loading="lazy">
+
+                  <!-- Live Fallback Gradient Art -->
+                  <div id="adminPosterFallback" class="poster-art" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%); height: 100%;">
+                    <div class="pt-3">
+                      <span class="badge bg-secondary bg-opacity-50 text-white" id="fallbackCategoryBadge">Preview</span>
+                      <div class="poster-title text-white fs-6 mt-2" id="fallbackTitleText">Movie Title</div>
+                    </div>
+                    <div class="pb-2">
+                      <div class="text-warning small" id="fallbackBadgeText">Cinematic Fallback</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preview Status & Diagnostics -->
+                <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 small">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-dim">Status:</span>
+                    <span id="previewStatusText" class="text-warning fw-semibold">No URL provided</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-dim">Fallback Card:</span>
+                    <span class="text-success">Active & Ready</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const urlInput = document.getElementById('moviePosterUrl');
+  const titleInput = document.getElementById('movieTitle');
+  const categorySelect = document.getElementById('movieCategory');
+  const badgeInput = document.getElementById('movieBadge');
+
+  const posterImg = document.getElementById('adminPosterImg');
+  const fallbackArt = document.getElementById('adminPosterFallback');
+  const fallbackTitle = document.getElementById('fallbackTitleText');
+  const fallbackCategory = document.getElementById('fallbackCategoryBadge');
+  const fallbackBadge = document.getElementById('fallbackBadgeText');
+  const statusText = document.getElementById('previewStatusText');
+  const validationBadge = document.getElementById('posterValidationBadge');
+
+  function updatePreview() {
+    const url = (urlInput.value || '').trim();
+    const title = (titleInput.value || '').trim() || 'Untitled Movie';
+    const category = categorySelect ? categorySelect.value : 'General';
+    const badge = (badgeInput && badgeInput.value) ? badgeInput.value : 'Cinematic Preview';
+
+    fallbackTitle.textContent = title;
+    fallbackCategory.textContent = category;
+    fallbackBadge.textContent = badge;
+
+    if (!url) {
+      posterImg.style.display = 'none';
+      fallbackArt.style.display = 'flex';
+      statusText.textContent = 'Using Fallback Artwork';
+      statusText.className = 'text-info fw-semibold';
+      validationBadge.textContent = 'No URL (Fallback Used)';
+      validationBadge.className = 'badge bg-secondary';
+      return;
+    }
+
+    validationBadge.textContent = 'Loading...';
+    validationBadge.className = 'badge bg-warning text-dark';
+    statusText.textContent = 'Testing Image URL...';
+    statusText.className = 'text-warning fw-semibold';
+
+    const testImg = new Image();
+    testImg.onload = function() {
+      posterImg.src = url;
+      posterImg.style.display = 'block';
+      fallbackArt.style.display = 'none';
+      statusText.textContent = 'Image Loaded Successfully (200 OK)';
+      statusText.className = 'text-success fw-semibold';
+      validationBadge.textContent = 'Valid Image';
+      validationBadge.className = 'badge bg-success';
+    };
+    testImg.onerror = function() {
+      posterImg.style.display = 'none';
+      fallbackArt.style.display = 'flex';
+      statusText.textContent = 'Image Load Failed (Using Fallback)';
+      statusText.className = 'text-danger fw-semibold';
+      validationBadge.textContent = 'Invalid / Broken URL';
+      validationBadge.className = 'badge bg-danger';
+    };
+    testImg.src = url;
+  }
+
+  if (urlInput) urlInput.addEventListener('input', updatePreview);
+  if (titleInput) titleInput.addEventListener('input', updatePreview);
+  if (categorySelect) categorySelect.addEventListener('change', updatePreview);
+  if (badgeInput) badgeInput.addEventListener('input', updatePreview);
+
+  // Initialize on page load
+  updatePreview();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Curated Movie Catalogue — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Header & Filters -->
+  <div class="card-cinematic p-4 mb-4">
+    <div class="row g-3 align-items-center mb-3">
+      <div class="col-lg-6">
+        <h2 class="fw-bold text-white mb-1">
+          <i class="bi bi-camera-reels-fill text-primary me-2"></i> Curated Movie Catalogue
+        </h2>
+        <p class="text-secondary small mb-0">Browse Anime, Marvel, and South Indian cinema records with verified metadata</p>
+      </div>
+
+      <div class="col-lg-6 text-lg-end">
+        <span class="badge badge-neon me-2">{{ movies|length }} Titles Found</span>
+        <span class="badge bg-dark border border-secondary text-secondary">
+          <i class="bi bi-geo-alt-fill text-danger me-1"></i> Default City: {{ selected_city }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('main.movies_catalog') }}" class="row g-2">
+      <div class="col-lg-3 col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-end-0 text-secondary" style="border-color: rgba(255,255,255,0.16);">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="text" name="q" value="{{ search_query }}" class="form-control form-control-cinematic border-start-0" placeholder="Search title, director, cast..." aria-label="Search catalogue">
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-3 col-6">
+        <select name="category" class="form-select form-select-cinematic" onchange="this.form.submit()" aria-label="Filter by category">
+          <option value="All" {% if selected_category == 'All' %}selected{% endif %}>All Categories</option>
+          {% for cat in categories if cat != 'All' %}
+            <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-lg-2 col-md-3 col-6">
+        <select name="language" class="form-select form-select-cinematic" onchange="this.form.submit()" aria-label="Filter by language">
+          <option value="All" {% if selected_language == 'All' %}selected{% endif %}>All Languages</option>
+          {% for lang in languages if lang != 'All' %}
+            <option value="{{ lang }}" {% if selected_language == lang %}selected{% endif %}>{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-lg-2 col-md-4 col-6">
+        <select name="genre" class="form-select form-select-cinematic" onchange="this.form.submit()" aria-label="Filter by genre">
+          {% for genre in genres %}
+            <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-lg-1 col-md-4 col-6">
+        <select name="city" class="form-select form-select-cinematic px-2" onchange="this.form.submit()" aria-label="Select city">
+          {% for city in cities %}
+            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+          {% endfor %}
+          <option value="All" {% if selected_city == 'All' %}selected{% endif %}>All Cities</option>
+        </select>
+      </div>
+
+      <div class="col-lg-2 col-md-4 col-12">
+        <select name="sort" class="form-select form-select-cinematic" onchange="this.form.submit()" aria-label="Sort catalogue">
+          <option value="default" {% if selected_sort == 'default' %}selected{% endif %}>Sort: Default</option>
+          <option value="rating_desc" {% if selected_sort == 'rating_desc' %}selected{% endif %}>Top Rated ⭐</option>
+          <option value="year_desc" {% if selected_sort == 'year_desc' %}selected{% endif %}>Newest Releases</option>
+          <option value="year_asc" {% if selected_sort == 'year_asc' %}selected{% endif %}>Classic Releases</option>
+          <option value="title_asc" {% if selected_sort == 'title_asc' %}selected{% endif %}>Title (A–Z)</option>
+          <option value="duration_desc" {% if selected_sort == 'duration_desc' %}selected{% endif %}>Longest Runtime</option>
+        </select>
+      </div>
+    </form>
+
+    {% if search_query or selected_category != 'All' or selected_language != 'All' or selected_genre != 'All' or selected_sort != 'default' %}
+      <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-3 border-top border-secondary border-opacity-25">
+        <span class="text-secondary small">Active Filters:</span>
+        {% if search_query %}
+          <span class="active-filter-tag"><i class="bi bi-search"></i> "{{ search_query }}"</span>
+        {% endif %}
+        {% if selected_category != 'All' %}
+          <span class="active-filter-tag"><i class="bi bi-tag"></i> {{ selected_category }}</span>
+        {% endif %}
+        {% if selected_language != 'All' %}
+          <span class="active-filter-tag"><i class="bi bi-translate"></i> {{ selected_language }}</span>
+        {% endif %}
+        {% if selected_genre != 'All' %}
+          <span class="active-filter-tag"><i class="bi bi-film"></i> {{ selected_genre }}</span>
+        {% endif %}
+        <a href="{{ url_for('main.movies_catalog') }}" class="btn btn-outline-cinematic btn-sm py-0 px-2 ms-auto" style="font-size: 0.76rem;">
+          <i class="bi bi-x-circle me-1"></i> Clear All
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Movies Grid -->
+  {% if movies %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for movie in movies %}
+        <div class="col">
+          <div class="card card-cinematic h-100">
+            <!-- Poster with Fallback -->
+            <div class="poster-container">
+              <div class="poster-overlay-top">
+                <span class="badge {% if movie.category == 'Anime' %}badge-anime{% elif movie.category == 'Marvel' %}badge-marvel{% else %}badge-south{% endif %}">
+                  {{ movie.category }}
+                </span>
+                <span class="badge bg-dark bg-opacity-75 text-warning fw-bold">⭐ {{ movie.imdb_score }}</span>
+              </div>
+
+              {% if movie.poster_url %}
+                <img src="{{ movie.poster_url }}"
+                     alt="{{ movie.title }}"
+                     class="poster-img"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                     loading="lazy">
+              {% endif %}
+
+              <div class="poster-art" style="background: {{ movie.bg_gradient }}; {% if movie.poster_url %}display: none;{% endif %} height: 100%;">
+                <div class="pt-4">
+                  <div class="poster-title text-white fs-5">{{ movie.title }}</div>
+                  {% if movie.original_title %}
+                    <div class="small text-white-50 mt-1">{{ movie.original_title }}</div>
+                  {% endif %}
+                </div>
+                <div class="pb-2">
+                  <div class="small text-info">{{ movie.language }} • {{ movie.duration }}</div>
+                </div>
+              </div>
+
+              <div class="poster-overlay-bottom">
+                <div class="text-white fw-bold text-truncate pe-5">{{ movie.title }}</div>
+                <div class="d-flex justify-content-between text-secondary small pe-5">
+                  <span>{{ movie.language }}</span>
+                  <span>{{ movie.release_year }}</span>
+                </div>
+              </div>
+
+              <!-- Quick View & Watchlist Floating Action Buttons -->
+              <button type="button"
+                      class="btn-quickview-card js-quickview-btn"
+                      data-movie-id="{{ movie.id }}"
+                      data-movie-title="{{ movie.title }}"
+                      data-movie-original="{{ movie.original_title or '' }}"
+                      data-movie-category="{{ movie.category }}"
+                      data-movie-rating="{{ movie.rating }}"
+                      data-movie-imdb="{{ movie.imdb_score }}"
+                      data-movie-year="{{ movie.release_year }}"
+                      data-movie-duration="{{ movie.duration }}"
+                      data-movie-language="{{ movie.language }}"
+                      data-movie-genre="{{ movie.genre or '' }}"
+                      data-movie-director="{{ movie.director or 'Unknown' }}"
+                      data-movie-cast="{{ (movie.cast or [])|join(', ') }}"
+                      data-movie-synopsis="{{ movie.synopsis or '' }}"
+                      data-movie-poster="{{ movie.poster_url or '' }}"
+                      data-movie-url="{{ url_for('main.movie_detail', movie_id=movie.id) }}"
+                      title="Quick View Synopsis &amp; Cast"
+                      aria-label="Quick view {{ movie.title }}">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button type="button"
+                      class="btn-watchlist-card js-watchlist-btn"
+                      data-movie-id="{{ movie.id }}"
+                      data-movie-title="{{ movie.title }}"
+                      title="Save to Watchlist"
+                      aria-label="Save {{ movie.title }} to Watchlist">
+                <i class="bi bi-heart"></i>
+              </button>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-3 d-flex flex-column flex-grow-1 justify-content-between">
+              <div>
+                <div class="d-flex justify-content-between text-secondary small mb-2 align-items-center">
+                  <span><i class="bi bi-clock me-1 text-info"></i> {{ movie.duration }}</span>
+                  <span class="badge bg-secondary text-light">{{ movie.rating }}</span>
+                  {% if movie.id in movies_with_shows %}
+                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25" style="font-size: 0.7rem;">Now Showing (Demo)</span>
+                  {% else %}
+                    <span class="badge bg-dark text-secondary border border-secondary" style="font-size: 0.7rem;">Catalogue Title</span>
+                  {% endif %}
+                </div>
+                {% if movie.genre %}
+                <div class="d-flex flex-wrap gap-1 mb-2">
+                  {% for g in (movie.genre or '').split('/')[:2] if g.strip() %}
+                    <span class="genre-chip">{{ g.strip() }}</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                <p class="text-secondary small mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5;">
+                  {{ movie.synopsis }}
+                </p>
+              </div>
+
+              <div class="pt-2 border-top border-secondary border-opacity-25 d-flex gap-2">
+                <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="btn btn-outline-cinematic btn-sm flex-fill">
+                  Details
+                </a>
+                {% if movie.id in movies_with_shows %}
+                  <a href="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="btn btn-cinematic btn-sm flex-fill">
+                    <i class="bi bi-ticket-perforated me-1"></i> Shows
+                  </a>
+                {% else %}
+                  <span class="btn btn-disabled-action btn-sm flex-fill" aria-disabled="true" title="No live showtimes currently scheduled">
+                    <i class="bi bi-calendar-x me-1"></i> Unavailable
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card-cinematic p-5 text-center my-4">
+      <i class="bi bi-film text-muted fs-1 mb-3"></i>
+      <h4 class="text-white">No movies match your filters</h4>
+      <p class="text-secondary small">Try resetting search filters or selecting "All Categories".</p>
+      <a href="{{ url_for('main.movies_catalog') }}" class="btn btn-outline-cinematic btn-sm mx-auto">Reset Catalogue Filters</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

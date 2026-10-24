@@ -1,0 +1,202 @@
+{
+  "_notice": "Official TMDB Poster Manifest for Movie Magic. Educational/demo purposes only.",
+  "_attribution": "This product uses the TMDB API but is not endorsed or certified by TMDB.",
+  "posters": {
+    "mov-anime-1": {
+      "title": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/1RgPyOhN4DRs225BGTlHJqCudII.jpg",
+      "poster_path": "/1RgPyOhN4DRs225BGTlHJqCudII.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 1311031)"
+    },
+    "mov-anime-2": {
+      "title": "Your Name.",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg",
+      "poster_path": "/q719jXXEzOoYaps6babgKnONONX.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 372058)"
+    },
+    "mov-anime-3": {
+      "title": "Suzume",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/4tdV5AeojEdbvn6VpeQrbuDlmzs.jpg",
+      "poster_path": "/4tdV5AeojEdbvn6VpeQrbuDlmzs.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 916224)"
+    },
+    "mov-anime-4": {
+      "title": "Jujutsu Kaisen 0",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/23oJaeBh0FDk2mQ2P240PU9Xxfh.jpg",
+      "poster_path": "/23oJaeBh0FDk2mQ2P240PU9Xxfh.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 810693)"
+    },
+    "mov-anime-5": {
+      "title": "The First Slam Dunk",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/995t1sb4ummXHBfKlXLSM1IAEjc.jpg",
+      "poster_path": "/995t1sb4ummXHBfKlXLSM1IAEjc.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 783675)"
+    },
+    "mov-anime-6": {
+      "title": "Spirited Away",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+      "poster_path": "/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 129)"
+    },
+    "mov-anime-7": {
+      "title": "Weathering with You",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/qgrk7r1fV4IjuoeiGS5HOhXNdLJ.jpg",
+      "poster_path": "/qgrk7r1fV4IjuoeiGS5HOhXNdLJ.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 568160)"
+    },
+    "mov-anime-8": {
+      "title": "A Silent Voice",
+      "category": "Anime",
+      "poster_url": "https://image.tmdb.org/t/p/w500/tuFaWiqX0TXoWu7DGNcmX3UW7sT.jpg",
+      "poster_path": "/tuFaWiqX0TXoWu7DGNcmX3UW7sT.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 378064)"
+    },
+    "mov-marvel-1": {
+      "title": "Avengers: Endgame",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+      "poster_path": "/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 299534)"
+    },
+    "mov-marvel-2": {
+      "title": "Avengers: Infinity War",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+      "poster_path": "/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 299536)"
+    },
+    "mov-marvel-3": {
+      "title": "Spider-Man: No Way Home",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "poster_path": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 634649)"
+    },
+    "mov-marvel-4": {
+      "title": "Spider-Man: Across the Spider-Verse",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+      "poster_path": "/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 569094)"
+    },
+    "mov-marvel-5": {
+      "title": "Deadpool & Wolverine",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "poster_path": "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 533535)"
+    },
+    "mov-marvel-6": {
+      "title": "Guardians of the Galaxy Vol. 3",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+      "poster_path": "/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 447365)"
+    },
+    "mov-marvel-7": {
+      "title": "Black Panther: Wakanda Forever",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+      "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 505642)"
+    },
+    "mov-marvel-8": {
+      "title": "Doctor Strange in the Multiverse of Madness",
+      "category": "Marvel",
+      "poster_url": "https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
+      "poster_path": "/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 453395)"
+    },
+    "mov-south-1": {
+      "title": "Pushpa 2: The Rule",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/1T21FblunT0y8fz7YaW8JMYgUKm.jpg",
+      "poster_path": "/1T21FblunT0y8fz7YaW8JMYgUKm.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 857598)"
+    },
+    "mov-south-2": {
+      "title": "Kalki 2898 AD",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/1Xcd5ci69pVXMPP02DU11Ffq0yY.jpg",
+      "poster_path": "/1Xcd5ci69pVXMPP02DU11Ffq0yY.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 786892)"
+    },
+    "mov-south-3": {
+      "title": "RRR",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/u0XUBNQWlOvrh0Gd97ARGpIkL0.jpg",
+      "poster_path": "/u0XUBNQWlOvrh0Gd97ARGpIkL0.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 579974)"
+    },
+    "mov-south-4": {
+      "title": "Baahubali 2: The Conclusion",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/21sC2assImQIYCEDA84Qh9d1RsK.jpg",
+      "poster_path": "/21sC2assImQIYCEDA84Qh9d1RsK.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 350312)"
+    },
+    "mov-south-5": {
+      "title": "K.G.F: Chapter 2",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/khNVygolU0TxLIDWff5tQlAhZ23.jpg",
+      "poster_path": "/khNVygolU0TxLIDWff5tQlAhZ23.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 587412)"
+    },
+    "mov-south-6": {
+      "title": "Kantara",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/jIsKmkxMzdCZ0Ux1GVSnu8m6Na6.jpg",
+      "poster_path": "/jIsKmkxMzdCZ0Ux1GVSnu8m6Na6.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 858485)"
+    },
+    "mov-south-7": {
+      "title": "Leo",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/2XUHC4lp3tDsgfFLFygNZ2x2Um9.jpg",
+      "poster_path": "/2XUHC4lp3tDsgfFLFygNZ2x2Um9.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 949229)"
+    },
+    "mov-south-8": {
+      "title": "Vikram",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/774UV1aCURb4s4JfEFg3IEMu5Zj.jpg",
+      "poster_path": "/774UV1aCURb4s4JfEFg3IEMu5Zj.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 743563)"
+    },
+    "mov-south-9": {
+      "title": "Jailer",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/pTmMxAHqX4vsIDE6HPPxOR0Q6TN.jpg",
+      "poster_path": "/pTmMxAHqX4vsIDE6HPPxOR0Q6TN.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 937020)"
+    },
+    "mov-south-10": {
+      "title": "Manjummel Boys",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/awOxXBZHh3jvFEOLJvTaJOX5urU.jpg",
+      "poster_path": "/awOxXBZHh3jvFEOLJvTaJOX5urU.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 1069945)"
+    },
+    "mov-south-11": {
+      "title": "Aavesham",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/k5RWPaNjgRcNvGoawYaQHQwyctI.jpg",
+      "poster_path": "/k5RWPaNjgRcNvGoawYaQHQwyctI.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 1222444)"
+    },
+    "mov-south-12": {
+      "title": "Premalu",
+      "category": "South Indian",
+      "poster_url": "https://image.tmdb.org/t/p/w500/uPpmBjY3znUqGY8kYwI5xvOrSc0.jpg",
+      "poster_path": "/uPpmBjY3znUqGY8kYwI5xvOrSc0.jpg",
+      "source": "Audited TMDB canonical mapping (ID: 1215162)"
+    }
+  }
+}

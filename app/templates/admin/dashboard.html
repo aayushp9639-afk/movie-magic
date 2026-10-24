@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Admin Header -->
+  <div class="card-cinematic p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-warning text-dark fw-bold">Admin Portal</span>
+          <span class="text-dim small">Role: {{ current_user_role }}</span>
+        </div>
+        <h2 class="fw-bold text-white mb-0"><i class="bi bi-speedometer2 text-warning me-2"></i> Operational Management</h2>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('admin.add_movie') }}" class="btn btn-cinematic btn-sm">
+          <i class="bi bi-plus-lg me-1"></i> Add Movie
+        </a>
+        <a href="{{ url_for('admin.add_theater') }}" class="btn btn-outline-cinematic btn-sm">
+          <i class="bi bi-building-add me-1"></i> Add Venue
+        </a>
+        <a href="{{ url_for('admin.add_showtime') }}" class="btn btn-outline-info btn-sm">
+          <i class="bi bi-clock-history me-1"></i> Schedule Showtime
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metric KPI Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Catalogue</span>
+          <i class="bi bi-film text-primary fs-5"></i>
+        </div>
+        <div class="fs-4 fw-extrabold text-white">{{ stats.movie_count }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">Verified Titles</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Venues</span>
+          <i class="bi bi-building text-info fs-5"></i>
+        </div>
+        <div class="fs-4 fw-extrabold text-white">{{ stats.theater_count }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">Kolhapur & More</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Showtimes</span>
+          <i class="bi bi-calendar-check text-success fs-5"></i>
+        </div>
+        <div class="fs-4 fw-extrabold text-white">{{ stats.showtime_count }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">Scheduled Shows</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Bookings</span>
+          <i class="bi bi-ticket-perforated text-warning fs-5"></i>
+        </div>
+        <div class="fs-4 fw-extrabold text-white">{{ stats.booking_count }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">Transactions</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Users</span>
+          <i class="bi bi-people text-danger fs-5"></i>
+        </div>
+        <div class="fs-4 fw-extrabold text-white">{{ stats.user_count }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">Registered</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-2">
+      <div class="card-cinematic p-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span class="text-muted small fw-semibold">Revenue</span>
+          <i class="bi bi-currency-rupee text-warning fs-5"></i>
+        </div>
+        <div class="fs-5 fw-extrabold text-warning">₹{{ '%.0f'|format(stats.total_revenue) }}</div>
+        <span class="text-dim" style="font-size: 0.75rem;">{{ stats.total_tickets }} Tickets Issued</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Cinema Venues Management Table -->
+  <div class="card-cinematic p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="fw-bold text-white mb-0"><i class="bi bi-building text-info me-2"></i> Cinema Venues & Operational Status</h4>
+        <p class="text-muted small mb-0">Kolhapur theatre venues with verification status and live source links</p>
+      </div>
+      <a href="{{ url_for('admin.add_theater') }}" class="btn btn-outline-cinematic btn-sm">
+        <i class="bi bi-plus-lg me-1"></i> Add Venue
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+        <thead>
+          <tr class="text-muted small border-secondary">
+            <th>Venue Name</th>
+            <th>Location</th>
+            <th>Verification</th>
+            <th>Operational Status</th>
+            <th>Screens</th>
+            <th>Source Listing</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for th in theaters %}
+            <tr class="border-secondary border-opacity-50">
+              <td class="fw-semibold text-white">
+                {{ th.name }}
+                <div class="text-dim small">{{ th.venue_type }}</div>
+              </td>
+              <td class="small text-muted">
+                {{ th.address }}
+                <div class="text-dim" style="font-size: 0.75rem;">{{ th.city }}, {{ th.state }} {{ th.postal_code or '' }}</div>
+              </td>
+              <td>
+                <span class="badge {% if th.is_verified %}badge-verified{% else %}badge-unverified{% endif %}">
+                  {% if th.is_verified %}Verified{% else %}Unverified{% endif %}
+                </span>
+              </td>
+              <td>
+                <span class="badge {% if th.operational_status == 'Operational' %}bg-success bg-opacity-25 text-success{% else %}bg-warning bg-opacity-25 text-warning{% endif %}">
+                  {{ th.operational_status }}
+                </span>
+              </td>
+              <td>
+                {% if th.screens %}
+                  <span class="badge bg-secondary text-light">{{ th.screens|length }} Screens</span>
+                {% else %}
+                  <span class="text-dim small fst-italic">None</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if th.source_url %}
+                  <a href="{{ th.source_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.75rem;">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Source
+                  </a>
+                {% else %}
+                  <span class="text-dim small">N/A</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <div class="d-inline-flex gap-1">
+                  <!-- Toggle status form -->
+                  <form method="POST" action="{{ url_for('admin.toggle_theater_status', theater_id=th.id) }}" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-outline-warning btn-sm py-0 px-2" style="font-size: 0.75rem;" title="Toggle operational status">
+                      Toggle Status
+                    </button>
+                  </form>
+                  <a href="{{ url_for('admin.edit_theater', theater_id=th.id) }}" class="btn btn-outline-info btn-sm py-0 px-2" style="font-size: 0.75rem;">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Separate Showtimes Schedule Management Table -->
+  <div class="card-cinematic p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="fw-bold text-white mb-0"><i class="bi bi-clock-history text-warning me-2"></i> Showtimes Schedules (Separated Model)</h4>
+        <p class="text-muted small mb-0">Separate from movie catalogue. Schedules can be marked as Verified or Demo / Sample.</p>
+      </div>
+      <a href="{{ url_for('admin.add_showtime') }}" class="btn btn-outline-warning btn-sm">
+        <i class="bi bi-plus-lg me-1"></i> Schedule Showtime
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+        <thead>
+          <tr class="text-muted small border-secondary">
+            <th>Movie</th>
+            <th>Theatre Venue</th>
+            <th>Date & Time</th>
+            <th>Language & Format</th>
+            <th>Screen</th>
+            <th>Status</th>
+            <th>Base Price</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in showtimes %}
+            <tr class="border-secondary border-opacity-50">
+              <td class="fw-semibold text-white">{{ s.movie_title }}</td>
+              <td class="small text-muted">{{ s.theater_name }} ({{ s.theater_city }})</td>
+              <td class="small text-light">{{ s.date }} at <strong class="text-info">{{ s.time }}</strong></td>
+              <td class="small text-muted">{{ s.language_version }} • <span class="badge bg-dark border border-secondary">{{ s.format }}</span></td>
+              <td class="small text-dim">{{ s.screen }}</td>
+              <td>
+                <span class="badge {% if s.is_verified %}badge-verified{% else %}badge-demo{% endif %}">
+                  {{ s.status }}
+                </span>
+              </td>
+              <td class="small text-warning fw-bold">₹{{ '%.2f'|format(s.price) }}</td>
+              <td class="text-end">
+                <form method="POST" action="{{ url_for('admin.delete_showtime', show_id=s.id) }}" class="d-inline" onsubmit="return confirm('Delete this showtime?');">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button type="submit" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.75rem;">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Movie Catalogue Inventory Table -->
+  <div class="card-cinematic p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="fw-bold text-white mb-0"><i class="bi bi-camera-reels text-primary me-2"></i> Movie Catalogue Inventory</h4>
+        <p class="text-muted small mb-0">28 verified titles across Anime, Marvel, and South Indian cinema</p>
+      </div>
+      <a href="{{ url_for('admin.add_movie') }}" class="btn btn-cinematic btn-sm">
+        <i class="bi bi-plus-lg me-1"></i> Add Movie
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+        <thead>
+          <tr class="text-muted small border-secondary">
+            <th>Title</th>
+            <th>Category</th>
+            <th>Language</th>
+            <th>Genre</th>
+            <th>Duration</th>
+            <th>Rating</th>
+            <th>IMDb</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in movies %}
+            <tr class="border-secondary border-opacity-50">
+              <td class="fw-semibold text-white">
+                {{ m.title }}
+                {% if m.original_title %}
+                  <div class="text-dim small fst-italic">{{ m.original_title }}</div>
+                {% endif %}
+              </td>
+              <td>
+                <span class="badge {% if m.category == 'Anime' %}badge-anime{% elif m.category == 'Marvel' %}badge-marvel{% else %}badge-south{% endif %}">
+                  {{ m.category }}
+                </span>
+              </td>
+              <td class="text-light small">{{ m.language }}</td>
+              <td><span class="badge bg-secondary">{{ m.genre }}</span></td>
+              <td class="text-dim small">{{ m.duration }}</td>
+              <td><span class="badge bg-dark border border-secondary">{{ m.rating }}</span></td>
+              <td class="text-warning fw-bold small">⭐ {{ m.imdb_score }}</td>
+              <td class="text-end">
+                <div class="d-inline-flex gap-1">
+                  <a href="{{ url_for('admin.edit_movie', movie_id=m.id) }}" class="btn btn-outline-info btn-sm py-1 px-2" title="Edit movie metadata">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <form method="POST" action="{{ url_for('admin.delete_movie', movie_id=m.id) }}" class="d-inline" onsubmit="return confirm('Remove {{ m.title }} from catalogue?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-outline-danger btn-sm py-1 px-2" title="Delete movie">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent Bookings Table -->
+  <div class="card-cinematic p-4">
+    <h4 class="fw-bold text-white mb-3"><i class="bi bi-receipt-cutoff text-info me-2"></i> Recent Booking Transactions</h4>
+    
+    <div class="table-responsive">
+      <table class="table table-dark table-hover align-middle mb-0" style="background: transparent;">
+        <thead>
+          <tr class="text-muted small border-secondary">
+            <th>Booking ID</th>
+            <th>Customer</th>
+            <th>Movie</th>
+            <th>Theater</th>
+            <th>Seats</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in recent_bookings %}
+            <tr class="border-secondary border-opacity-50">
+              <td><span class="font-monospace text-info small">{{ b.id }}</span></td>
+              <td class="small text-light">{{ b.user_email }}</td>
+              <td class="fw-semibold text-white small">{{ b.movie_title }}</td>
+              <td class="small text-muted">{{ b.theater_name }}</td>
+              <td><span class="badge bg-dark border border-secondary text-light">{{ b.seats|join(', ') }}</span></td>
+              <td class="fw-bold text-warning small">₹{{ '%.2f'|format(b.total_price) }}</td>
+              <td><span class="badge bg-success bg-opacity-25 text-success small">{{ b.status }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

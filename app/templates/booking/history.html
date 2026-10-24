@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="card-cinematic p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h2 class="fw-bold text-white mb-1">
+          <i class="bi bi-ticket-perforated-fill text-primary me-2"></i> My Booking History
+        </h2>
+        <p class="text-muted small mb-0">Review your ticket reservations, view e-tickets, and print receipts</p>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        {% if bookings %}
+          <span class="badge bg-secondary px-3 py-2 fs-6">{{ bookings|length }} Booking{% if bookings|length > 1 %}s{% endif %}</span>
+        {% endif %}
+        <a href="{{ url_for('main.movies_catalog') }}" class="btn btn-cinematic btn-sm">
+          <i class="bi bi-plus-circle me-1"></i> Book New Movie
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% if bookings %}
+    <div class="row g-3">
+      {% for b in bookings %}
+        <div class="col-12">
+          <div class="card-cinematic p-4">
+            <div class="row align-items-center g-3">
+              <div class="col-md-5">
+                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 mb-2 px-2 py-1">
+                  <i class="bi bi-check2-circle me-1"></i> {{ b.status }}
+                </span>
+                <h4 class="text-white fw-bold mb-1">{{ b.movie_title }}</h4>
+                <div class="text-muted small">
+                  <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ b.theater_name }}
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="text-dim small mb-1">
+                  <strong class="text-white"><i class="bi bi-clock me-1 text-info"></i>Showtime:</strong> {{ b.show_date }} at {{ b.showtime }}
+                </div>
+                <div class="text-dim small mb-1">
+                  <strong class="text-white"><i class="bi bi-grid-3x3 me-1 text-warning"></i>Seats ({{ b.ticket_count }}):</strong>
+                  <span class="text-info fw-semibold">{{ b.seats|join(', ') }}</span>
+                </div>
+                <div class="text-dim small">
+                  <strong class="text-white"><i class="bi bi-calendar-event me-1 text-muted"></i>Booked on:</strong> {{ b.created_at }}
+                </div>
+              </div>
+
+              <div class="col-md-3 text-md-end">
+                <div class="fs-4 fw-extrabold text-warning mb-2">₹{{ '%.2f'|format(b.total_price) }}</div>
+                <a href="{{ url_for('booking.booking_confirmation', booking_id=b.id) }}" class="btn btn-outline-cinematic btn-sm w-100">
+                  <i class="bi bi-ticket-detailed me-1"></i> View E-Ticket
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card-cinematic p-5 text-center my-4">
+      <div class="mb-3 text-muted">
+        <i class="bi bi-ticket-perforated" style="font-size: 3.5rem;"></i>
+      </div>
+      <h3 class="text-white fw-bold mb-2">No Bookings Yet</h3>
+      <p class="text-muted small mb-4 mx-auto" style="max-width: 440px;">
+        Explore current Kolhapur cinema releases, select your preferred auditorium tier, and book your verified tickets now.
+      </p>
+      <a href="{{ url_for('main.movies_catalog') }}" class="btn btn-cinematic btn-sm">
+        <i class="bi bi-film me-1"></i> Browse Curated Movies
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

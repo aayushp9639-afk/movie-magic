@@ -1,0 +1,38 @@
+================================================================================
+🎬 MOVIE MAGIC — TICKET BOOKING CONFIRMATION
+================================================================================
+
+YOUR TICKETS ARE CONFIRMED!
+Status: Confirmed
+
+BOOKING DETAILS:
+--------------------------------------------------------------------------------
+Booking Reference ID: {{ booking_id }}
+Movie:                {{ movie_title }}
+Cinema Venue:         {{ theater_name }}
+Date & Showtime:      {{ show_date }} • {{ showtime }}
+Reserved Seats:       {{ seats|join(', ') }} ({{ seats|length }} Ticket{% if seats|length > 1 %}s{% endif %})
+Seating Tier:         {{ tier }}
+Total Amount:         ₹{{ "%.2f"|format(total_price) }} INR
+Reservation Status:   Confirmed
+
+CUSTOMER INSTRUCTIONS:
+Please retain this confirmation email or your Booking Reference ID ({{ booking_id }})
+for your records and reference at the cinema box office.
+
+VIEW YOUR BOOKING ONLINE:
+{{ booking_url }}
+
+DEMONSTRATION NOTICE:
+This confirmation was generated for academic evaluation and technical
+demonstration. No live financial charge was processed, and this record does
+not represent commercial cinema admission.
+
+--------------------------------------------------------------------------------
+Movie Magic • Transaction Confirmation
+Sent to your authenticated account email upon successful booking persistence.
+Powered by Amazon DynamoDB, Resend Transactional Email & Amazon SNS.
+{% if support_email %}
+Need assistance? Contact {{ support_email }}
+{% endif %}
+================================================================================

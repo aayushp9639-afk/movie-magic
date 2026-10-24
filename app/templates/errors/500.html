@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}500 Server Error — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5 my-5">
+  <div class="card-cinematic p-5 mx-auto" style="max-width: 520px;">
+    <div class="mb-3 text-danger">
+      <i class="bi bi-exclamation-octagon-fill" style="font-size: 4rem;"></i>
+    </div>
+    <h2 class="fw-bold text-white mb-2">500 — Technical Malfunction</h2>
+    <p class="text-muted mb-4">
+      An unexpected projector failure occurred on the server. Please try again shortly.
+    </p>
+    <a href="{{ url_for('main.index') }}" class="btn btn-cinematic">
+      <i class="bi bi-house-door me-1"></i> Return Home
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1082 @@
+/* ==============================================================================
+   Movie Magic — Premium Cinematic Dark Theme
+   Deep Charcoal / Navy (#0a0e17) with Violet (#8b5cf6) & Electric Indigo (#6366f1)
+   ============================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Background Surfaces — Deep Obsidian & Midnight Slate */
+  --bg-primary: #070a12;
+  --bg-secondary: #0d1322;
+  --bg-card: #121a2d;
+  --bg-card-hover: #18233c;
+  --bg-elevated: #1e293b;
+  --bg-glass: rgba(7, 10, 18, 0.86);
+  --bg-input: #0e1526;
+
+  /* Accents & Brand Colors — Electric Violet, Indigo & Warm Cinema Amber */
+  --accent-primary: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-violet: #8b5cf6;
+  --accent-cyan: #38bdf8;
+  --accent-gold: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+
+  /* Accessible High-Contrast Text Tokens */
+  --text-primary: #f8fafc;       /* Crisp warm white (headings, titles) */
+  --text-secondary: #cbd5e1;     /* High-contrast readable body text */
+  --text-muted: #94a3b8;         /* Accessible metadata & secondary labels */
+  --text-dim: #64748b;           /* Tertiary hints & subtle captions */
+  --text-accent: #a5b4fc;        /* Highlighted link / chip text */
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-glow: rgba(139, 92, 246, 0.5);
+  --border-gold: rgba(245, 158, 11, 0.45);
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.65);
+  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 18px 38px -6px rgba(99, 102, 241, 0.25), 0 8px 20px rgba(0, 0, 0, 0.6);
+  --shadow-btn: 0 4px 16px rgba(99, 102, 241, 0.38);
+  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.28);
+  --shadow-poster: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 4px 10px rgba(0, 0, 0, 0.4);
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+}
+
+/* Optional Light Theme Support */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-elevated: #e2e8f0;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --bg-input: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  --text-accent: #4f46e5;
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.16);
+  --shadow-card: 0 6px 20px -4px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover: 0 16px 32px -6px rgba(99, 102, 241, 0.18);
+  --shadow-lg: 0 14px 34px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .hero-backdrop {
+  background: radial-gradient(circle at 65% 25%, rgba(99, 102, 241, 0.16) 0%, rgba(139, 92, 246, 0.08) 40%, #eef2ff 100%);
+}
+
+[data-theme="light"] .bg-dark {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .poster-overlay-bottom .text-white,
+[data-theme="light"] .poster-art .text-white {
+  color: #f8fafc !important;
+}
+
+/* Base Document & Typography */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  color: var(--text-primary) !important;
+  letter-spacing: -0.02em;
+}
+
+.text-white {
+  color: var(--text-primary) !important;
+}
+
+/* Skip to Content Link for Keyboard Accessibility */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--accent-primary);
+  color: #ffffff !important;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  z-index: 2000;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+p, span, div {
+  text-rendering: optimizeLegibility;
+}
+
+/* Accessible Global Focus States */
+:focus-visible {
+  outline: 2px solid var(--accent-primary) !important;
+  outline-offset: 3px !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* ==============================================================================
+   Navigation Bar
+   ============================================================================== */
+.navbar-cinematic {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.9rem 0;
+  transition: all 0.25s ease;
+  z-index: 1030;
+}
+
+.brand-logo {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.brand-logo:hover {
+  opacity: 0.92;
+  color: var(--text-primary);
+}
+
+.brand-icon {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-violet));
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.45);
+  font-size: 1.15rem;
+}
+
+.brand-text-accent {
+  background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar-nav .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navbar-nav .nav-link.active {
+  color: #a5b4fc !important;
+  background: rgba(99, 102, 241, 0.12);
+  font-weight: 600;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu-dark {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 0.6rem;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.dropdown-item {
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: var(--text-primary);
+}
+
+/* Demo Notice Banner */
+.demo-banner {
+  background: linear-gradient(90deg, #1e1b4b 0%, #2e1065 50%, #1e1b4b 100%);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.35);
+  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  color: #e0e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+/* ==============================================================================
+   Cards & Elevated Surfaces
+   ============================================================================== */
+.card-cinematic {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.card-cinematic:hover {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Movie Poster Container (Strict 2:3 Aspect Ratio) */
+.poster-container {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: #0b1120;
+  box-shadow: var(--shadow-poster);
+}
+
+.poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-cinematic:hover .poster-img,
+.poster-container:hover .poster-img {
+  transform: scale(1.04);
+}
+
+.poster-overlay-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.poster-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.2rem 1rem 0.8rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(7, 11, 20, 0.95) 90%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Poster Artwork Fallback Container */
+.poster-art {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.7);
+}
+
+.poster-art::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.poster-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* ==============================================================================
+   Hero Section
+   ============================================================================== */
+.hero-backdrop {
+  position: relative;
+  background: radial-gradient(circle at 65% 25%, rgba(99, 102, 241, 0.22) 0%, rgba(139, 92, 246, 0.12) 35%, rgba(10, 14, 23, 0.98) 75%);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 4.5rem 0 4rem;
+  overflow: hidden;
+}
+
+.hero-backdrop::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 100%);
+  pointer-events: none;
+}
+
+.hero-poster-glow {
+  position: relative;
+}
+
+.hero-poster-glow::before {
+  content: "";
+  position: absolute;
+  inset: -15px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.45) 0%, rgba(245, 158, 11, 0.25) 50%, transparent 75%);
+  filter: blur(25px);
+  z-index: 0;
+  border-radius: 30px;
+}
+
+.hero-poster-glow .poster-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==============================================================================
+   Filter Bar & Search Controls
+   ============================================================================== */
+.filter-bar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-top: -2.5rem;
+  position: relative;
+  z-index: 20;
+  box-shadow: var(--shadow-lg);
+}
+
+.category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pill-filter {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pill-filter:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.pill-filter.active {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-violet));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+  font-weight: 600;
+}
+
+/* Inputs & Selects */
+.form-control-cinematic,
+.form-select-cinematic {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.95rem;
+  font-size: 0.92rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control-cinematic:focus,
+.form-select-cinematic:focus {
+  background-color: #162035;
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+  outline: none;
+}
+
+.form-control-cinematic::placeholder {
+  color: #64748b;
+}
+
+.form-select-cinematic option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* ==============================================================================
+   Badges & Tags
+   ============================================================================== */
+.badge-anime {
+  background: rgba(236, 72, 153, 0.18);
+  color: #f472b6 !important;
+  border: 1px solid rgba(236, 72, 153, 0.45);
+  font-weight: 600;
+}
+
+.badge-marvel {
+  background: rgba(239, 68, 68, 0.18);
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  font-weight: 600;
+}
+
+.badge-south {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  font-weight: 600;
+}
+
+.badge-verified {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  font-weight: 600;
+}
+
+.badge-unverified {
+  background: rgba(249, 115, 22, 0.18);
+  color: #fb923c !important;
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  font-weight: 600;
+}
+
+.badge-neon {
+  background: rgba(99, 102, 241, 0.18);
+  color: #a5b4fc !important;
+  border: 1px solid rgba(99, 102, 241, 0.38);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 0.35em 0.7em;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.badge-gold {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  font-weight: 600;
+}
+
+.badge-demo {
+  background: rgba(244, 63, 94, 0.18);
+  color: #fda4af !important;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  font-weight: 700;
+}
+
+/* ==============================================================================
+   Buttons & Interactive Elements
+   ============================================================================== */
+.btn-cinematic {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-violet) 100%);
+  color: white !important;
+  border: none;
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-btn);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cinematic:hover {
+  color: white !important;
+  box-shadow: 0 6px 22px rgba(99, 102, 241, 0.55);
+  transform: translateY(-2px);
+}
+
+.btn-cinematic:active {
+  transform: translateY(0);
+}
+
+.btn-outline-cinematic {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary) !important;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-cinematic:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--text-primary) !important;
+  transform: translateY(-1px);
+}
+
+.btn-disabled-action {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-medium) !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  font-size: 0.82rem;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.65rem;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* ==============================================================================
+   Venue Cards
+   ============================================================================== */
+.venue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.venue-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+/* ==============================================================================
+   Theater Seat Selection Styles
+   ============================================================================== */
+.theater-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.screen-wrapper {
+  perspective: 400px;
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+.screen-curve {
+  height: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--accent-cyan) 55%, transparent 100%);
+  border-radius: 50% / 100% 100% 0 0;
+  box-shadow: 0 -10px 45px rgba(56, 189, 248, 0.65), 0 0 20px rgba(255, 255, 255, 0.5);
+  width: 75%;
+  margin: 0 auto;
+}
+
+.screen-label {
+  font-size: 0.82rem;
+  letter-spacing: 4px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-top: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/* Seat Grid Layout */
+.seat-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-label {
+  width: 25px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.seat {
+  width: 35px;
+  height: 33px;
+  border-radius: 7px 7px 4px 4px;
+  background-color: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+  color: var(--text-secondary);
+}
+
+.seat:hover:not(.seat-booked) {
+  transform: scale(1.18);
+  border-color: var(--accent-cyan);
+  color: white;
+  z-index: 5;
+}
+
+/* Seat Tiers */
+.seat-vip {
+  border-color: rgba(245, 158, 11, 0.45);
+  background-color: rgba(245, 158, 11, 0.12);
+}
+
+.seat-gold {
+  border-color: rgba(99, 102, 241, 0.45);
+  background-color: rgba(99, 102, 241, 0.12);
+}
+
+.seat-silver {
+  border-color: rgba(148, 163, 184, 0.35);
+  background-color: rgba(148, 163, 184, 0.08);
+}
+
+/* Seat States */
+.seat-selected {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-violet)) !important;
+  color: white !important;
+  border-color: #a5b4fc !important;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.85);
+  transform: scale(1.1);
+}
+
+.seat-booked {
+  background-color: #0d131f !important;
+  border-color: #242f44 !important;
+  color: #475569 !important;
+  cursor: not-allowed !important;
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+/* Seat Legend */
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.legend-sample {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* ==============================================================================
+   Ticket Confirmation & E-Ticket Style
+   ============================================================================== */
+.ticket-wrapper {
+  max-width: 660px;
+  margin: 2rem auto;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-header {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  padding: 2.2rem 2rem;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.18);
+  position: relative;
+}
+
+/* Perforation Notch effect */
+.ticket-header::before,
+.ticket-header::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--bg-primary);
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+}
+.ticket-header::before { left: -15px; }
+.ticket-header::after { right: -15px; }
+
+.ticket-body {
+  padding: 2.2rem;
+}
+
+.qr-placeholder {
+  width: 140px;
+  height: 140px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* ==============================================================================
+   Footer
+   ============================================================================== */
+footer {
+  margin-top: auto;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 3rem 0 1.5rem;
+}
+
+/* Print Styles for E-Ticket */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .navbar, footer, .demo-banner, .btn, .alert {
+    display: none !important;
+  }
+  .ticket-wrapper {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid;
+  }
+  .ticket-header {
+    background: #f1f5f9 !important;
+    color: black !important;
+  }
+  .ticket-header h2, .ticket-header p, .ticket-body, .text-white {
+    color: black !important;
+  }
+  .qr-placeholder {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 768px) {
+  .hero-backdrop {
+    padding: 2.5rem 0 2rem;
+  }
+  .filter-bar {
+    margin-top: 0;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+  .seat {
+    width: 27px;
+    height: 27px;
+    font-size: 0.65rem;
+  }
+  .seat-row {
+    gap: 4px;
+  }
+  .row-label {
+    width: 18px;
+    font-size: 0.75rem;
+  }
+  .screen-curve {
+    width: 90%;
+  }
+}
+
+/* ==============================================================================
+   Phase 5 Redesign Components: Watchlist, Quick View, Spotlight & Theme Toggle
+   ============================================================================== */
+
+/* Interactive Watchlist Button on Posters */
+.btn-watchlist-card {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(10, 14, 23, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #f8fafc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.btn-watchlist-card:hover {
+  transform: scale(1.12);
+  background: rgba(99, 102, 241, 0.85);
+  border-color: #a5b4fc;
+  color: #ffffff;
+}
+
+.btn-watchlist-card.is-saved {
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  border-color: #fda4af;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.6);
+}
+
+/* Quick View Trigger Button on Poster Hover */
+.btn-quickview-card {
+  position: absolute;
+  bottom: 12px;
+  right: 54px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(10, 14, 23, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.btn-quickview-card:hover {
+  transform: scale(1.12);
+  background: rgba(56, 189, 248, 0.85);
+  border-color: #bae6fd;
+  color: #0f172a;
+}
+
+/* Genre Chips inside Movie Cards */
+.genre-chip {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.18rem 0.52rem;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--text-accent);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  white-space: nowrap;
+}
+
+/* Spotlight Rank Number Badge */
+.rank-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45);
+}
+
+/* Theme Toggle Pill in Navbar */
+.btn-theme-toggle {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Active Filter Tag Pills */
+.active-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(99, 102, 241, 0.16);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  color: var(--text-accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.active-filter-tag:hover {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: #fda4af;
+}
+
+/* Toast Notification Floating Container */
+.watchlist-toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 2050;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.watchlist-toast {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glow);
+  color: #f8fafc;
+  padding: 0.75rem 1.15rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  pointer-events: auto;
+  animation: slideUpToast 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpToast {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

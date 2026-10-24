@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}" class="text-accent text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('main.movies_catalog') }}" class="text-accent text-decoration-none">Movies</a></li>
+      <li class="breadcrumb-item active text-secondary" aria-current="page">{{ movie.title }}</li>
+    </ol>
+  </nav>
+
+  <!-- Movie Header Banner -->
+  <div class="card-cinematic p-4 p-md-5 mb-4 position-relative overflow-hidden" style="background: {{ movie.bg_gradient }};">
+    <div class="row align-items-center g-4 g-lg-5">
+      <!-- Poster with Fallback -->
+      <div class="col-md-4 col-lg-3 text-center">
+        <div class="poster-container shadow-lg mx-auto" style="max-width: 270px;">
+          {% if movie.poster_url %}
+            <img src="{{ movie.poster_url }}"
+                 alt="{{ movie.title }}"
+                 class="poster-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                 loading="lazy">
+          {% endif %}
+          <div class="poster-art" style="background: rgba(0,0,0,0.65); {% if movie.poster_url %}display: none;{% endif %} height: 100%;">
+            <div class="pt-3">
+              <span class="badge badge-neon">{{ movie.badge }}</span>
+              <div class="poster-title text-white fs-5 mt-2">{{ movie.title }}</div>
+            </div>
+            <div class="pb-2">
+              <div class="text-warning small">⭐ {{ movie.imdb_score }} / 10 IMDb</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Metadata Information -->
+      <div class="col-md-8 col-lg-9">
+        <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+          <span class="badge {% if movie.category == 'Anime' %}badge-anime{% elif movie.category == 'Marvel' %}badge-marvel{% else %}badge-south{% endif %} fs-6 px-3 py-2">
+            {{ movie.category }}
+          </span>
+          <span class="badge bg-secondary fs-6 px-3 py-2">{{ movie.rating }}</span>
+          <span class="badge bg-dark border border-secondary text-light fs-6 px-3 py-2"><i class="bi bi-clock me-1 text-info"></i> {{ movie.duration }}</span>
+          <span class="badge bg-info text-dark fw-bold fs-6 px-3 py-2">Original: {{ movie.language }}</span>
+          {% if movie.dubbed_languages %}
+            <span class="badge bg-dark text-secondary border border-secondary px-3 py-2">
+              Dubbed: {{ movie.dubbed_languages|join(', ') }}
+            </span>
+          {% endif %}
+        </div>
+
+        <h1 class="display-5 fw-bold text-white mb-1" style="letter-spacing: -1px;">{{ movie.title }}</h1>
+        {% if movie.original_title %}
+          <p class="fs-4 text-secondary fst-italic mb-3">"{{ movie.original_title }}"</p>
+        {% endif %}
+
+        {% if movie.genre %}
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          {% for g in (movie.genre or '').split('/') if g.strip() %}
+            <span class="genre-chip">{{ g.strip() }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <p class="lead text-light mb-4" style="max-width: 820px; font-size: 1.05rem; line-height: 1.6;">
+          {{ movie.synopsis }}
+        </p>
+
+        <div class="row g-3 text-secondary small p-3 rounded bg-black bg-opacity-40 border border-secondary border-opacity-35 mb-4" style="max-width: 840px;">
+          <div class="col-sm-4">
+            <strong class="text-white d-block">Director</strong>
+            <span class="text-secondary">{{ movie.director or 'TBD' }}</span>
+          </div>
+          <div class="col-sm-4">
+            <strong class="text-white d-block">Release Year</strong>
+            <span class="text-secondary">{{ movie.release_year or 'TBD' }}</span>
+          </div>
+          <div class="col-sm-4">
+            <strong class="text-white d-block">Verified Rating</strong>
+            <span class="text-warning fw-bold">⭐ {{ movie.imdb_score or 'N/A' }} / 10 (Sourced)</span>
+          </div>
+          <div class="col-12 border-top border-secondary border-opacity-25 pt-2">
+            <strong class="text-white">Starring Cast:</strong> <span class="text-secondary">{{ (movie.cast or ['Cast TBD'])|join(', ') }}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#schedule-section" class="btn btn-cinematic px-4">
+            <i class="bi bi-ticket-perforated me-2"></i> View Theater Schedule
+          </a>
+          <button type="button"
+                  class="btn btn-outline-cinematic px-4 js-watchlist-btn"
+                  data-movie-id="{{ movie.id }}"
+                  data-movie-title="{{ movie.title }}"
+                  aria-label="Save {{ movie.title }} to Watchlist">
+            <i class="bi bi-heart me-2"></i> <span class="js-watchlist-label">Save to Watchlist</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showtimes & Theater Selection Section -->
+  <div id="schedule-section" class="card-cinematic p-4 mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+      <div>
+        <h3 class="fw-bold text-white mb-1">
+          <i class="bi bi-clock-history text-info me-2"></i> Theater Schedule in {{ selected_city }}
+        </h3>
+        <p class="text-secondary small mb-0">Separate showtime schedule model — distinctly distinguishing verified schedules from demo data</p>
+      </div>
+
+      <!-- City Switcher -->
+      <form method="GET" action="{{ url_for('main.movie_detail', movie_id=movie.id) }}" class="d-flex align-items-center gap-2">
+        <label class="text-secondary small fw-semibold">City:</label>
+        <select name="city" class="form-select form-select-cinematic form-select-sm" onchange="this.form.submit()">
+          {% for city in cities %}
+            <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+
+    {% if showtimes %}
+      <!-- Visible Demo Data Warning as required by prompt -->
+      <div class="alert alert-warning p-3 mb-4 rounded border border-warning border-opacity-50 small">
+        <div class="d-flex align-items-start gap-2">
+          <i class="bi bi-exclamation-triangle-fill fs-5 text-warning flex-shrink-0"></i>
+          <div>
+            <strong>DEMO DATA NOTICE:</strong> The showtimes below are sample schedules provided for development and application workflow testing. They do not claim to reflect live real-time box office schedules.
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column gap-3 mb-4">
+        {% for show in showtimes %}
+          <div class="p-3 rounded bg-dark border border-secondary border-opacity-50">
+            <div class="row align-items-center g-3">
+              <div class="col-md-5">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="badge {% if show.is_verified %}badge-verified{% else %}badge-demo{% endif %}">
+                    {{ show.status }}
+                  </span>
+                  <span class="badge bg-dark border border-secondary text-secondary">{{ show.format }}</span>
+                </div>
+                <h5 class="text-white fw-bold mb-1">
+                  <i class="bi bi-building text-primary me-2"></i>{{ show.theater_name }}
+                </h5>
+                <span class="text-secondary small">{{ show.theater_city }} • {{ show.screen }}</span>
+              </div>
+
+              <div class="col-md-4">
+                <div class="text-light small mb-1">
+                  <strong>Language:</strong> {{ show.language_version }}
+                </div>
+                <div class="text-secondary small">
+                  <strong>Date:</strong> {{ show.date }} at <span class="text-info fw-bold">{{ show.time }}</span>
+                </div>
+                <div class="text-muted" style="font-size: 0.75rem;">
+                  Base Price: ₹{{ '%.2f'|format(show.price) }}
+                </div>
+              </div>
+
+              <div class="col-md-3 text-md-end">
+                <a href="{{ url_for('booking.select_seats', movie_id=movie.id, theater_id=show.theater_id, showtime=show.time, date=show.date) }}"
+                   class="btn btn-cinematic btn-sm w-100">
+                  <i class="bi bi-ticket-perforated me-1"></i> Select Seats (Demo)
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Mandatory No-Showtime / Catalogue Notice -->
+      <div class="card-cinematic p-4 p-md-5 text-center my-3 border border-secondary border-opacity-35">
+        <i class="bi bi-calendar-x text-secondary fs-1 mb-3"></i>
+        <h4 class="text-white mb-2">Showtimes not verified — check with the cinema directly</h4>
+        <p class="text-secondary small mx-auto mb-4" style="max-width: 600px;">
+          <strong>"{{ movie.title }}"</strong> is part of the Movie Magic curated movie catalogue. There are no confirmed public showtimes currently recorded for this title in {{ selected_city }}. Check local cinema portals for current operational schedules:
+        </p>
+
+        <!-- Direct links to verified Kolhapur cinema sources -->
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+          <a href="https://www.district.in/movies/pvr-dyp-city-mall-kavala-naka-kolhapur-CD1019885" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cinematic btn-sm">
+            <i class="bi bi-box-arrow-up-right me-1"></i> PVR DYP City Mall (District)
+          </a>
+          <a href="https://cinematimes.in/theatre/inox-reliance-mega-mall-kolhapur/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cinematic btn-sm">
+            <i class="bi bi-box-arrow-up-right me-1"></i> INOX Reliance Mega Mall (CinemaTimes)
+          </a>
+          <a href="https://in.bookmyshow.com/cinemas/kolh/prabhat-royal-cineplex-kolhapur/buytickets/PCKR/20261019" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cinematic btn-sm">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Prabhat Royal Cineplex (BookMyShow)
+          </a>
+          <a href="https://in.bookmyshow.com/cinemas/KOLH/shahu-cinema-kolhapur/buytickets/SHUA/20261016" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cinematic btn-sm">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Shahu Cinema (BookMyShow)
+          </a>
+        </div>
+
+        <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 small text-secondary text-center mx-auto" style="max-width: 650px;">
+          <i class="bi bi-shield-lock me-1 text-warning"></i>
+          <strong>Non-Bookable Protection:</strong> In accordance with our security principles, fake seat reservations cannot be initiated for titles without verified showtimes.
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Kolhapur Venues Quick Directory -->
+    <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
+      <h5 class="fw-bold text-white mb-3"><i class="bi bi-geo-alt me-2 text-danger"></i> Verified Cinema Venues Directory in Kolhapur</h5>
+      <div class="row row-cols-1 row-cols-md-2 g-3">
+        {% for th in theaters %}
+          <div class="col">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 small">
+              <div class="d-flex justify-content-between align-items-center">
+                <strong class="text-white">{{ th.name }}</strong>
+                <span class="badge {% if th.is_verified %}badge-verified{% else %}badge-unverified{% endif %}">{{ th.operational_status }}</span>
+              </div>
+              <div class="text-secondary mt-1">{{ th.address }}</div>
+              {% if th.source_url %}
+                <div class="mt-2">
+                  <a href="{{ th.source_url }}" target="_blank" rel="noopener noreferrer" class="text-info text-decoration-none">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Official Listing Reference
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Similar Movies Recommendations Section -->
+  {% if similar_movies %}
+  <section class="mt-4 pb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h4 class="fw-bold text-white mb-0">
+          <i class="bi bi-stars text-warning me-2"></i> More in {{ movie.category }} Cinema
+        </h4>
+        <span class="text-secondary small">Curated recommendations related to "{{ movie.title }}"</span>
+      </div>
+      <a href="{{ url_for('main.movies_catalog', category=movie.category) }}" class="btn btn-outline-cinematic btn-sm">
+        Explore {{ movie.category }} <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-4 g-3">
+      {% for rec in similar_movies %}
+        <div class="col">
+          <div class="card card-cinematic h-100">
+            <div class="poster-container">
+              <div class="poster-overlay-top">
+                <span class="badge {% if rec.category == 'Anime' %}badge-anime{% elif rec.category == 'Marvel' %}badge-marvel{% else %}badge-south{% endif %}">
+                  {{ rec.category }}
+                </span>
+                <span class="badge bg-dark bg-opacity-75 text-warning fw-bold">⭐ {{ rec.imdb_score }}</span>
+              </div>
+              {% if rec.poster_url %}
+                <img src="{{ rec.poster_url }}"
+                     alt="{{ rec.title }}"
+                     class="poster-img"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                     loading="lazy">
+              {% endif %}
+              <div class="poster-art" style="background: {{ rec.bg_gradient }}; {% if rec.poster_url %}display: none;{% endif %} height: 100%;">
+                <div class="poster-title text-white small">{{ rec.title }}</div>
+              </div>
+              <div class="poster-overlay-bottom">
+                <div class="text-white small fw-bold text-truncate pe-4">{{ rec.title }}</div>
+                <div class="text-white-50" style="font-size: 0.72rem;">{{ rec.language }} • {{ rec.release_year }}</div>
+              </div>
+              <button type="button"
+                      class="btn-watchlist-card js-watchlist-btn"
+                      data-movie-id="{{ rec.id }}"
+                      data-movie-title="{{ rec.title }}"
+                      title="Save to Watchlist"
+                      aria-label="Save {{ rec.title }} to Watchlist">
+                <i class="bi bi-heart"></i>
+              </button>
+            </div>
+            <div class="p-2 d-flex justify-content-between align-items-center">
+              <span class="text-secondary small"><i class="bi bi-clock me-1 text-info"></i>{{ rec.duration }}</span>
+              <a href="{{ url_for('main.movie_detail', movie_id=rec.id) }}" class="btn btn-outline-cinematic btn-sm py-0 px-2" style="font-size: 0.78rem;">View</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DynamoDBTableAccess",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:TransactWriteItems"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_users",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_users/index/*",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_movies",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_movies/index/*",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_theaters",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_theaters/index/*",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_showtimes",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_showtimes/index/*",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_bookings",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_bookings/index/*",
+        "arn:aws:dynamodb:ap-south-1:*:table/moviemagic_show_seats"
+      ]
+    },
+    {
+      "Sid": "SNSTopicPublishAccess",
+      "Effect": "Allow",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Resource": [
+        "arn:aws:sns:ap-south-1:*:moviemagic-booking-notifications"
+      ]
+    }
+  ]
+}

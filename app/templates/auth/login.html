@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In — Movie Magic{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div class="card-cinematic p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div class="brand-icon d-inline-flex align-items-center justify-content-center mb-3 fs-3" style="width: 56px; height: 56px; border-radius: 16px;">
+            <i class="bi bi-person-fill-lock"></i>
+          </div>
+          <h2 class="fw-bold text-white mb-1">Welcome Back</h2>
+          <p class="text-muted small mb-0">Access your bookings and reserve prime cinema seats</p>
+        </div>
+
+        {% if show_demo_credentials %}
+        <!-- Demo Credentials Helper (Evaluation / Academic Demo Mode Only) -->
+        <div class="p-3 mb-4 rounded border small" style="background: rgba(245, 158, 11, 0.06); border-color: rgba(245, 158, 11, 0.28) !important;">
+          <div class="fw-semibold text-warning mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill"></i> Public Demo Credentials
+          </div>
+          <p class="text-dim small mb-2" style="font-size: 0.8rem;">
+            Seeded non-sensitive test account for evaluation and demonstration purposes.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-sm btn-outline-info" onclick="fillDemoCredentials()">
+              <i class="bi bi-person me-1"></i> Quick Fill Demo User
+            </button>
+          </div>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('auth.login') }}" novalidate>
+          {{ form.hidden_tag() }}
+          {% if next %}
+          <input type="hidden" name="next" value="{{ next }}">
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label text-light small fw-semibold" for="email">
+              <i class="bi bi-envelope me-1 text-primary"></i> Email Address
+            </label>
+            {{ form.email(class="form-control form-control-cinematic" + (" is-invalid" if form.email.errors else ""), placeholder="name@example.com") }}
+            {% for error in form.email.errors %}
+              <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-light small fw-semibold" for="password">
+              <i class="bi bi-lock me-1 text-primary"></i> Password
+            </label>
+            {{ form.password(class="form-control form-control-cinematic" + (" is-invalid" if form.password.errors else ""), placeholder="••••••••") }}
+            {% for error in form.password.errors %}
+              <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              {{ form.remember_me(class="form-check-input") }}
+              <label class="form-check-label text-muted small" for="remember_me">
+                Remember me
+              </label>
+            </div>
+            <span class="text-dim small"><i class="bi bi-shield-check me-1 text-success"></i>Secure Session</span>
+          </div>
+
+          <div class="d-grid mb-4">
+            {{ form.submit(class="btn btn-cinematic py-2 fw-bold") }}
+          </div>
+
+          <div class="text-center text-muted small">
+            Don't have an account yet? 
+            <a href="{{ url_for('auth.register') }}" class="text-info fw-semibold text-decoration-none">Create one</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if show_demo_credentials %}
+<script>
+function fillDemoCredentials() {
+  document.getElementById("email").value = "demo@moviemagic.com";
+  document.getElementById("password").value = "Demo@123";
+}
+</script>
+{% endif %}
+{% endblock %}

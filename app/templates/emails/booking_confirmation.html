@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Movie Magic Ticket Confirmation</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f8fafc; -webkit-font-smoothing: antialiased;">
+  <!-- Outer Table Wrapper -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #0b0f19; min-height: 100vh; padding: 32px 16px;">
+    <tr>
+      <td align="center" valign="top">
+        <!-- Main Email Container (Max 600px) -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 600px; background-color: #111827; border: 1px solid #1f2937; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);">
+          
+          <!-- Top Accent Line -->
+          <tr>
+            <td style="height: 4px; background: linear-gradient(90deg, #d97706, #f59e0b, #fbbf24); font-size: 0; line-height: 0;">&nbsp;</td>
+          </tr>
+
+          <!-- Brand Header with Status Badge -->
+          <tr>
+            <td style="padding: 28px 32px 20px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="left" valign="middle">
+                    <div style="display: inline-block;">
+                      <span style="font-size: 24px; vertical-align: middle;">🎬</span>
+                      <span style="font-size: 22px; font-weight: 800; letter-spacing: 0.5px; color: #f59e0b; vertical-align: middle; margin-left: 4px;">MOVIE</span>
+                      <span style="font-size: 22px; font-weight: 800; letter-spacing: 0.5px; color: #ffffff; vertical-align: middle;">MAGIC</span>
+                    </div>
+                  </td>
+                  <td align="right" valign="middle">
+                    <span style="display: inline-block; background-color: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">
+                      &bull; Confirmed
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Confirmation Hero -->
+          <tr>
+            <td style="padding: 0 32px 20px 32px; text-align: left;">
+              <h1 style="margin: 0 0 6px 0; font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.3;">
+                Your Tickets Are Confirmed!
+              </h1>
+              <p style="margin: 0; font-size: 14px; color: #94a3b8; line-height: 1.5;">
+                Thank you for your reservation. Here are your booking and ticket details:
+              </p>
+            </td>
+          </tr>
+
+          <!-- Visual Ticket Card -->
+          <tr>
+            <td style="padding: 0 32px 24px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #1a2234; border: 1px solid #2d3748; border-top: 3px solid #f59e0b; border-radius: 10px; overflow: hidden;">
+                
+                <!-- Ticket Header: Booking ID & Movie Title -->
+                <tr>
+                  <td style="padding: 20px 24px 16px 24px; background-color: #162036;">
+                    <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">
+                      Booking Reference ID
+                    </div>
+                    <div style="font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 20px; font-weight: 700; color: #f59e0b; letter-spacing: 0.5px; margin-bottom: 12px;">
+                      {{ booking_id }}
+                    </div>
+                    <div style="font-size: 22px; font-weight: 700; color: #ffffff; line-height: 1.3;">
+                      {{ movie_title }}
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Perforation / Cut Line -->
+                <tr>
+                  <td style="padding: 0 24px;">
+                    <div style="border-top: 1px dashed #334155; height: 1px;"></div>
+                  </td>
+                </tr>
+
+                <!-- Ticket Details Matrix -->
+                <tr>
+                  <td style="padding: 18px 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <!-- Venue & Date -->
+                      <tr>
+                        <td width="50%" valign="top" style="padding-bottom: 14px;">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 3px;">
+                            Cinema Venue
+                          </div>
+                          <div style="font-size: 14px; font-weight: 600; color: #f8fafc;">
+                            {{ theater_name }}
+                          </div>
+                        </td>
+                        <td width="50%" valign="top" style="padding-bottom: 14px;">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 3px;">
+                            Date & Showtime
+                          </div>
+                          <div style="font-size: 14px; font-weight: 600; color: #f8fafc;">
+                            {{ show_date }} &bull; {{ showtime }}
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Seats & Tier -->
+                      <tr>
+                        <td width="50%" valign="top" style="padding-bottom: 14px;">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 4px;">
+                            Reserved Seats ({{ seats|length }})
+                          </div>
+                          <div style="margin-top: 2px;">
+                            {% for seat in seats %}
+                            <span style="display: inline-block; background-color: #0b0f19; border: 1px solid #3b82f6; color: #93c5fd; font-weight: 700; font-size: 12px; padding: 2px 7px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px; font-family: monospace;">
+                              {{ seat }}
+                            </span>
+                            {% endfor %}
+                          </div>
+                        </td>
+                        <td width="50%" valign="top" style="padding-bottom: 14px;">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 3px;">
+                            Seating Tier
+                          </div>
+                          <div style="font-size: 14px; font-weight: 600; color: #cbd5e1;">
+                            {{ tier }}
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Total Price & Status -->
+                      <tr>
+                        <td width="50%" valign="top">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 3px;">
+                            Total Amount
+                          </div>
+                          <div style="font-size: 18px; font-weight: 800; color: #f59e0b;">
+                            ₹{{ "%.2f"|format(total_price) }}
+                            <span style="font-size: 12px; font-weight: 500; color: #94a3b8;">INR</span>
+                          </div>
+                        </td>
+                        <td width="50%" valign="top">
+                          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 3px;">
+                            Reservation Status
+                          </div>
+                          <div style="font-size: 14px; font-weight: 600; color: #10b981;">
+                            Confirmed
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Instructions / Retention Note -->
+                <tr>
+                  <td style="padding: 14px 24px; background-color: #121927; border-top: 1px solid #2d3748;">
+                    <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5;">
+                      📌 <strong>Customer Note:</strong> Please retain this confirmation email or your Booking Reference ID for your records and reference at the cinema box office.
+                    </p>
+                  </td>
+                </tr>
+
+              </table>
+            </td>
+          </tr>
+
+          <!-- View Booking Details CTA Button -->
+          <tr>
+            <td style="padding: 0 32px 24px 32px; text-align: center;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="center" style="border-radius: 8px; background-color: #f59e0b; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">
+                          <a href="{{ booking_url }}" target="_blank" style="display: inline-block; padding: 13px 32px; font-size: 15px; font-weight: 700; color: #0b0f19; text-decoration: none; border-radius: 8px; border: 1px solid #f59e0b; letter-spacing: 0.3px;">
+                            View Booking Details &rarr;
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Academic Demonstration Disclaimer Box -->
+          <tr>
+            <td style="padding: 0 32px 24px 32px;">
+              <div style="background-color: #0d131f; border: 1px solid #1f2937; border-radius: 6px; padding: 12px 16px; text-align: left;">
+                <p style="margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.5;">
+                  <strong style="color: #cbd5e1;">Demo E-Ticket Notice:</strong> This confirmation was generated for academic evaluation and technical demonstration. No live financial charge was processed, and this record does not represent commercial cinema admission.
+                </p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer Section -->
+          <tr>
+            <td style="padding: 24px 32px 32px 32px; background-color: #0b0f19; border-top: 1px solid #1f2937; text-align: center;">
+              <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 600; color: #94a3b8; letter-spacing: 0.5px;">
+                MOVIE MAGIC &bull; TRANSACTION CONFIRMATION
+              </p>
+              <p style="margin: 0 0 8px 0; font-size: 11px; color: #64748b; line-height: 1.5;">
+                Sent to your authenticated account email upon successful booking persistence.<br>
+                Amazon DynamoDB &bull; Resend Transactional Email &bull; Amazon SNS
+              </p>
+              {% if support_email %}
+              <p style="margin: 0; font-size: 12px; color: #94a3b8;">
+                Need assistance with your booking? Contact <a href="mailto:{{ support_email }}" style="color: #f59e0b; text-decoration: underline;">{{ support_email }}</a>.
+              </p>
+              {% endif %}
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
