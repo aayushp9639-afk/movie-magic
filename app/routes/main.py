@@ -171,3 +171,36 @@ def movie_detail(movie_id):
         similar_movies=similar_movies,
         movies_with_shows=movies_with_shows,
     )
+
+
+@main_bp.route("/api/movies", methods=["GET"])
+def api_movies():
+    """Public JSON API for movie catalogue discovery, search, and filtering."""
+    selected_city = request.args.get("city", "Kolhapur")
+    selected_category = request.args.get("category", "All")
+    selected_language = request.args.get("language", "All")
+    selected_genre = request.args.get("genre", "All")
+    selected_sort = request.args.get("sort", "default")
+    search_query = request.args.get("q", "").strip()
+
+    movies = movie_service.list_movies(
+        city=selected_city,
+        genre=selected_genre,
+        category=selected_category,
+        language=selected_language,
+        search_query=search_query,
+        sort_by=selected_sort if selected_sort != "default" else None,
+    )
+    return jsonify({
+        "status": "success",
+        "count": len(movies),
+        "movies": movies,
+        "filters": {
+            "city": selected_city,
+            "category": selected_category,
+            "language": selected_language,
+            "genre": selected_genre,
+            "sort": selected_sort,
+            "q": search_query,
+        },
+    }), 200

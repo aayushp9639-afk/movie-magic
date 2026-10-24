@@ -242,3 +242,21 @@ def test_combined_search_genre_sort_and_missing_metadata_resilience(client):
         movie_repository.delete_movie(sparse_movie["id"])
 
 
+def test_api_movies_endpoint(client):
+    """Verify /api/movies returns valid JSON catalogue with filter support."""
+    response = client.get("/api/movies")
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["status"] == "success"
+    assert data["count"] >= 28
+    assert len(data["movies"]) >= 28
+
+    # Filter by category
+    res_anime = client.get("/api/movies?category=Anime")
+    assert res_anime.status_code == 200
+    data_anime = res_anime.get_json()
+    assert data_anime["count"] >= 8
+    assert all(m["category"] == "Anime" for m in data_anime["movies"])
+
+
+
